@@ -271,18 +271,21 @@ function isContainNumber(num, digit) {
  *  [1, 2, 3, 4, 5] => -1   => no balance element
  */
 function getBalanceIndex(arr) {
-  let leftSum = 0;
-  let rightSum = 0;
+  let arrSum = 0;
+  let leftSum = arr[0];
+
   for (let i = 0; i < arr.length; i += 1) {
-    if (i === arr.length - 1 - i) return -1;
-    leftSum += arr[i];
-    if (leftSum !== rightSum) {
-      rightSum += arr[arr.length - 1 - i];
-    }
-    if (leftSum === rightSum) {
-      return i + 1;
-    }
+    arrSum += arr[i];
   }
+
+  for (let i = 1; i < arr.length - 1; i += 1) {
+    const rightSum = arrSum - leftSum - arr[i];
+    if (leftSum === rightSum) {
+      return i;
+    }
+    leftSum += arr[i];
+  }
+
   return -1;
 }
 /**
@@ -364,8 +367,24 @@ function sortByAsc(/* arr */) {
  *  '012345', 3 => '024135' => '043215' => '031425'
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
-function shuffleChar(/* str, iterations */) {
-  throw new Error('Not implemented');
+function shuffleChar(str, iterations) {
+  let newStr = str;
+  for (let i = iterations; i > 0; ) {
+    let leftStr = '';
+    let rightStr = '';
+    for (let j = 0; j < newStr.length; j += 1) {
+      if (j % 2 !== 0) {
+        rightStr += newStr[j];
+      } else leftStr += newStr[j];
+    }
+    newStr = leftStr + rightStr;
+    if (newStr === str) {
+      i = iterations % (iterations - i + 1);
+    } else {
+      i -= 1;
+    }
+  }
+  return newStr;
 }
 
 /**
