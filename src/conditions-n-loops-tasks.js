@@ -309,8 +309,44 @@ function getBalanceIndex(arr) {
  *          [10, 9,  8,  7]
  *        ]
  */
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
+function getSpiralMatrix(size) {
+  const arr = new Array(size);
+  for (let i = 0; i < size; i += 1) {
+    arr[i] = new Array(size);
+  }
+  let curElement = 0;
+  let top = 0;
+  let right = size - 1;
+  let bottom = size - 1;
+  let left = 0;
+
+  for (let j = 0; j < size; j += 1) {
+    for (let k = left; k <= right; k += 1) {
+      curElement += 1;
+      arr[top][k] = curElement;
+    }
+    top += 1;
+
+    for (let k = top; k <= bottom; k += 1) {
+      curElement += 1;
+      arr[k][right] = curElement;
+    }
+    right -= 1;
+
+    for (let k = right; k >= left; k -= 1) {
+      curElement += 1;
+      arr[bottom][k] = curElement;
+    }
+    bottom -= 1;
+
+    for (let k = bottom; k >= top; k -= 1) {
+      curElement += 1;
+      arr[k][left] = curElement;
+    }
+    left += 1;
+  }
+
+  return arr;
 }
 
 /**
@@ -328,8 +364,28 @@ function getSpiralMatrix(/* size */) {
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix(/* matrix */) {
-  throw new Error('Not implemented');
+function rotateMatrix(matrix) {
+  const arr = new Array(matrix.length);
+  for (let i = 0; i < matrix.length; i += 1) {
+    arr[i] = new Array(matrix.length);
+  }
+  let col;
+  for (let i = 0; i < matrix[0].length; i += 1) {
+    for (let j = matrix.length - 1; j >= 0; j -= 1) {
+      col = matrix.length - j - 1;
+      arr[i][col] = matrix[j][i];
+    }
+  }
+
+  const res = matrix;
+
+  for (let i = 0; i < matrix[0].length; i += 1) {
+    for (let j = 0; j < matrix[0].length; j += 1) {
+      res[i][j] = arr[i][j];
+    }
+  }
+
+  return res;
 }
 
 /**
@@ -346,8 +402,30 @@ function rotateMatrix(/* matrix */) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(/* arr */) {
-  throw new Error('Not implemented');
+function quickSort(arr) {
+  if (arr.length < 2) return arr;
+  const el = arr[0];
+  const left = [];
+  const right = [];
+  for (let i = 1; i < arr.length; i += 1) {
+    if (el > arr[i]) {
+      left.push(arr[i]);
+    } else {
+      right.push(arr[i]);
+    }
+  }
+  return quickSort(left).concat(el, quickSort(right));
+}
+
+function sortByAsc(arr) {
+  const res = arr;
+  const sorted = quickSort(arr);
+
+  for (let i = 0; i < arr.length; i += 1) {
+    res[i] = sorted[i];
+  }
+
+  return res;
 }
 
 /**
